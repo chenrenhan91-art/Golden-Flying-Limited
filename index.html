@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Flying Limited</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react">
+      const { useState, useEffect } = React;
+
+      const IconBase = ({ className = "h-5 w-5", children, viewBox = "0 0 24 24" }) => (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox={viewBox}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+        >
+          {children}
+        </svg>
+      );
+
+      const ShoppingCart = (props) => (
+        <IconBase {...props}>
+          <circle cx="9" cy="20" r="1" />
+          <circle cx="17" cy="20" r="1" />
+          <path d="M3 4h2l2.4 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H7" />
+        </IconBase>
+      );
+
+      const Search = (props) => (
+        <IconBase {...props}>
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </IconBase>
+      );
+
+      const Menu = (props) => (
+        <IconBase {...props}>
+          <path d="M3 6h18" />
+          <path d="M3 12h18" />
+          <path d="M3 18h18" />
+        </IconBase>
+      );
+
+      const X = (props) => (
+        <IconBase {...props}>
+          <path d="m18 6-12 12" />
+          <path d="m6 6 12 12" />
+        </IconBase>
+      );
+
+      const ChevronRight = (props) => (
+        <IconBase {...props}>
+          <path d="m9 18 6-6-6-6" />
+        </IconBase>
+      );
+
+      const Star = (props) => (
+        <IconBase {...props}>
+          <path d="m12 2.5 2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5-4.7-4.6 6.5-1Z" />
+        </IconBase>
+      );
+
+      const ShieldCheck = (props) => (
+        <IconBase {...props}>
+          <path d="M12 3 5 6v6c0 5 3.4 8.6 7 10 3.6-1.4 7-5 7-10V6z" />
+          <path d="m9 12 2 2 4-4" />
+        </IconBase>
+      );
+
+      const Truck = (props) => (
+        <IconBase {...props}>
+          <path d="M1 5h12v10H1z" />
+          <path d="M13 8h4l3 3v4h-7z" />
+          <circle cx="6" cy="18" r="2" />
+          <circle cx="18" cy="18" r="2" />
+        </IconBase>
+      );
+
+      const ArrowLeft = (props) => (
+        <IconBase {...props}>
+          <path d="M19 12H5" />
+          <path d="m12 19-7-7 7-7" />
+        </IconBase>
+      );
+
+      const Settings = (props) => (
+        <IconBase {...props}>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.8 1.8 0 0 0 .3 2l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.8 1.8 0 0 0-2-.3 1.8 1.8 0 0 0-1 1.6V21a2 2 0 0 1-4 0v-.2a1.8 1.8 0 0 0-1-1.6 1.8 1.8 0 0 0-2 .3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.8 1.8 0 0 0 .3-2 1.8 1.8 0 0 0-1.6-1H3a2 2 0 0 1 0-4h.2a1.8 1.8 0 0 0 1.6-1 1.8 1.8 0 0 0-.3-2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.8 1.8 0 0 0 2 .3 1.8 1.8 0 0 0 1-1.6V3a2 2 0 0 1 4 0v.2a1.8 1.8 0 0 0 1 1.6 1.8 1.8 0 0 0 2-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.8 1.8 0 0 0-.3 2 1.8 1.8 0 0 0 1.6 1H21a2 2 0 0 1 0 4h-.2a1.8 1.8 0 0 0-1.4.7z" />
+        </IconBase>
+      );
+
+      const Zap = (props) => (
+        <IconBase {...props}>
+          <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
+        </IconBase>
+      );
+
+      const Wrench = (props) => (
+        <IconBase {...props}>
+          <path d="M22 6.5a5.5 5.5 0 0 1-7.8 5L6.7 19a2 2 0 1 1-2.8-2.8l7.5-7.5A5.5 5.5 0 0 1 17 2l-3 3 2 2z" />
+        </IconBase>
+      );
+
+      const products = [
+        {
+          id: 3,
+          name: "Pro-Tuner Advanced ECU Standalone",
+          category: "Control Modules",
+          price: 1850.0,
+          rating: 5.0,
+          reviews: 215,
+          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+          description:
+            "Take absolute control over your engine's parameters with the Pro-Tuner Standalone Engine Control Unit. Features real-time telemetry, advanced knock control, flex-fuel support, and multi-map switching. Includes a universal wiring harness and intuitive tuning software.",
+          specs: [
+            { label: "Processor", value: "Dual 32-bit Automotive MCU" },
+            { label: "Injector Drivers", value: "8 Peak & Hold" },
+            { label: "Ignition Outputs", value: "8 Smart Coils" },
+            { label: "Data Logging", value: "8GB Onboard Memory" },
+          ],
+        },
+        {
+          id: 4,
+          name: "Carbon Ceramic Brake Kit (Front & Rear)",
+          category: "Auto Parts",
+          price: 4900.0,
+          rating: 4.7,
+          reviews: 56,
+          image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80",
+          description:
+            "Eliminate brake fade and reduce unsprung weight with our premium carbon ceramic brake upgrade kit. Features massive 6-piston forged front calipers and 380mm rotors. Delivers consistent, neck-snapping stopping power under the most extreme track conditions.",
+          specs: [
+            { label: "Rotor Material", value: "Carbon Ceramic Matrix" },
+            { label: "Front Calipers", value: "6-Piston Monoblock" },
+            { label: "Rear Calipers", value: "4-Piston Monoblock" },
+            { label: "Pad Compound", value: "Track/Street Hybrid" },
+          ],
+        },
+        {
+          id: 5,
+          name: "Precision High-Flow Turbocharger",
+          category: "Engine Parts",
+          price: 2150.0,
+          rating: 4.9,
+          reviews: 142,
+          image: "https://images.unsplash.com/photo-1580274455191-1c62238fa333?auto=format&fit=crop&w=800&q=80",
+          description:
+            "Maximize your engine's volumetric efficiency with our dual ball-bearing turbocharger. Features a billet aluminum compressor wheel and high-temp Inconel turbine for rapid spool and massive top-end power.",
+          specs: [
+            { label: "Bearing Type", value: "Dual Ceramic Ball Bearing" },
+            { label: "Compressor Wheel", value: "62mm Billet Aluminum" },
+            { label: "Turbine Housing", value: "T3 / T4 Options" },
+            { label: "Max Power Rating", value: "850 HP" },
+          ],
+        },
+        {
+          id: 6,
+          name: "Telemetry & Ignition Control Module",
+          category: "Control Modules",
+          price: 895.0,
+          rating: 4.7,
+          reviews: 93,
+          image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+          description:
+            "An advanced add-on control module for managing high-output ignition coils and recording high-speed track telemetry. Seamlessly integrates with CAN-bus networks to provide ultra-precise spark timing.",
+          specs: [
+            { label: "Compatibility", value: "Universal CAN-bus" },
+            { label: "Spark Energy", value: "Up to 150mJ per spark" },
+            { label: "Telemetry", value: "100Hz GPS & G-Force" },
+            { label: "Housing", value: "IP67 Billet Aluminum" },
+          ],
+        },
+      ];
+
+      const Navbar = ({ onNavigateHome, cartCount }) => {
+        const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+        return (
+          <nav className="bg-slate-900 text-white sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-20">
+                <div className="flex items-center cursor-pointer group" onClick={onNavigateHome}>
+                  <div className="bg-red-600 p-2 rounded-lg group-hover:bg-red-500 transition-colors">
+                    <Zap className="h-6 w-6 text-white" />
+                  </div>
+                  <span className="ml-3 font-bold text-xl tracking-wider uppercase">
+                    Golden Flying <span className="text-red-500">Limited</span>
+                  </span>
+                </div>
+
+                <div className="hidden md:flex space-x-8 items-center">
+                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); }} className="text-gray-300 hover:text-white transition-colors">Home</a>
+                  <a href="#engines" className="text-gray-300 hover:text-white transition-colors">Engines</a>
+                  <a href="#transmissions" className="text-gray-300 hover:text-white transition-colors">Transmissions</a>
+                  <a href="#ecus" className="text-gray-300 hover:text-white transition-colors">ECUs</a>
+
+                  <div className="flex space-x-5 ml-4 border-l border-slate-700 pl-6">
+                    <button className="text-gray-300 hover:text-white transition-colors" aria-label="search">
+                      <Search className="h-5 w-5" />
+                    </button>
+                    <button className="text-gray-300 hover:text-white transition-colors relative" aria-label="cart">
+                      <ShoppingCart className="h-5 w-5" />
+                      {cartCount > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                          {cartCount}
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="md:hidden flex items-center space-x-4">
+                  <button className="text-gray-300 hover:text-white transition-colors relative" aria-label="mobile cart">
+                    <ShoppingCart className="h-6 w-6" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </button>
+                  <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-300 hover:text-white" aria-label="menu">
+                    {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {isMobileMenuOpen && (
+              <div className="md:hidden bg-slate-800 border-t border-slate-700">
+                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); setIsMobileMenuOpen(false); }} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Home</a>
+                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Engines</a>
+                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Transmissions</a>
+                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Control Modules</a>
+                </div>
+              </div>
+            )}
+          </nav>
+        );
+      };
+
+      const Hero = () => (
+        <div className="relative bg-slate-900 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80"
+              alt="Performance Car Background"
+              className="w-full h-full object-cover opacity-30"
+            />
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col items-start">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4 max-w-2xl">
+              UNLEASH YOUR VEHICLE&apos;s <span className="text-red-500">TRUE POTENTIAL</span>
+            </h1>
+            <p className="mt-4 text-xl text-gray-300 max-w-xl mb-8">
+              Premium high-performance engines, precision transmissions, and advanced control modules for serious builders and motorsport professionals.
+            </p>
+            <div className="flex space-x-4">
+              <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors flex items-center">
+                Shop Catalog <ChevronRight className="ml-2 h-5 w-5" />
+              </button>
+              <button className="bg-transparent border-2 border-white hover:bg-white hover:text-slate-900 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                View Builds
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+
+      const ProductCard = ({ product, onClick }) => (
+        <div
+          onClick={() => onClick(product)}
+          className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col"
+        >
+          <div className="relative h-56 overflow-hidden bg-gray-100">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute top-3 left-3 bg-slate-900 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
+              {product.category}
+            </div>
+          </div>
+          <div className="p-5 flex flex-col flex-grow">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors line-clamp-2">
+                {product.name}
+              </h3>
+            </div>
+            <div className="flex items-center mb-4">
+              <Star className="h-4 w-4 text-yellow-400" />
+              <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
+              <span className="ml-1 text-sm text-gray-400">({product.reviews})</span>
+            </div>
+            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+              <span className="text-2xl font-extrabold text-slate-900">
+                ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              </span>
+              <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
+                <ShoppingCart className="h-5 w-5 text-gray-400 group-hover:text-red-600" />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      const Features = () => (
+        <div className="bg-white py-12 border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex items-center justify-center md:justify-start space-x-4">
+                <div className="bg-red-50 p-3 rounded-full"><ShieldCheck className="h-8 w-8 text-red-600" /></div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Genuine Parts</h4>
+                  <p className="text-sm text-gray-500">100% authentic performance gear</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center md:justify-start space-x-4">
+                <div className="bg-red-50 p-3 rounded-full"><Truck className="h-8 w-8 text-red-600" /></div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Global Freight</h4>
+                  <p className="text-sm text-gray-500">Secure shipping for heavy assemblies</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center md:justify-start space-x-4">
+                <div className="bg-red-50 p-3 rounded-full"><Settings className="h-8 w-8 text-red-600" /></div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Expert Support</h4>
+                  <p className="text-sm text-gray-500">ASE Certified tech assistance</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      const Footer = () => (
+        <footer className="bg-slate-900 text-gray-400 py-12 mt-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-1">
+              <div className="flex items-center mb-4">
+                <Zap className="h-6 w-6 text-red-500" />
+                <span className="ml-2 font-bold text-xl text-white uppercase">Golden Flying Limited</span>
+              </div>
+              <p className="text-sm">The ultimate destination for professional-grade automotive performance parts, engines, and electronics.</p>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Products</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-red-400">Crate Engines</a></li>
+                <li><a href="#" className="hover:text-red-400">Transmission Systems</a></li>
+                <li><a href="#" className="hover:text-red-400">Engine Management (ECU)</a></li>
+                <li><a href="#" className="hover:text-red-400">Turbo & Superchargers</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-red-400">Installation Guides</a></li>
+                <li><a href="#" className="hover:text-red-400">Shipping & Returns</a></li>
+                <li><a href="#" className="hover:text-red-400">Warranty Info</a></li>
+                <li><a href="#" className="hover:text-red-400">Contact Us</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Newsletter</h4>
+              <p className="text-sm mb-4">Subscribe for updates on new drops and tech articles.</p>
+              <div className="flex">
+                <input type="email" placeholder="Email Address" className="bg-slate-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-1 focus:ring-red-500" />
+                <button className="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700 transition-colors">Join</button>
+              </div>
+            </div>
+          </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-sm text-center">
+            &copy; {new Date().getFullYear()} Golden Flying Limited. All rights reserved.
+          </div>
+        </footer>
+      );
+
+      const HomeView = ({ onProductClick }) => (
+        <div>
+          <Hero />
+          <Features />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="flex justify-between items-end mb-8">
+              <div>
+                <h2 className="text-3xl font-extrabold text-slate-900 uppercase tracking-tight">Featured Hardware</h2>
+                <p className="text-gray-500 mt-2">Top-tier components for your next build</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} onClick={onProductClick} />
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+
+      const ProductDetailView = ({ product, onBack, onAddToCart }) => {
+        const [quantity, setQuantity] = useState(1);
+        const [added, setAdded] = useState(false);
+
+        useEffect(() => {
+          window.scrollTo(0, 0);
+        }, []);
+
+        const handleAddToCart = () => {
+          onAddToCart(quantity);
+          setAdded(true);
+          setTimeout(() => setAdded(false), 2000);
+        };
+
+        if (!product) return null;
+
+        return (
+          <div className="bg-gray-50 min-h-screen pb-20">
+            <div className="bg-white border-b border-gray-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <button onClick={onBack} className="flex items-center text-gray-500 hover:text-red-600 transition-colors text-sm font-medium">
+                  <ArrowLeft className="h-4 w-4 mr-2" /> Back to Catalog
+                </button>
+              </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:flex-row">
+                <div className="w-full lg:w-1/2 bg-gray-100 relative">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover min-h-[400px] lg:min-h-[600px]"
+                  />
+                  <div className="absolute top-6 left-6 bg-slate-900 text-white text-sm font-bold px-3 py-1.5 rounded uppercase tracking-wider shadow-lg">
+                    {product.category}
+                  </div>
+                </div>
+
+                <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col">
+                  <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4 leading-tight">{product.name}</h1>
+
+                  <div className="flex items-center mb-6">
+                    <div className="flex items-center text-yellow-400">
+                      <Star className="h-5 w-5" />
+                      <Star className="h-5 w-5" />
+                      <Star className="h-5 w-5" />
+                      <Star className="h-5 w-5" />
+                      <Star className="h-5 w-5 text-gray-300" />
+                    </div>
+                    <span className="ml-3 text-gray-600 font-medium">{product.rating} Rating</span>
+                    <span className="mx-3 text-gray-300">|</span>
+                    <span className="text-blue-600 hover:underline cursor-pointer">{product.reviews} Reviews</span>
+                  </div>
+
+                  <div className="text-4xl font-extrabold text-slate-900 mb-6">
+                    ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                  </div>
+
+                  <p className="text-gray-600 text-lg mb-8 leading-relaxed">{product.description}</p>
+
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-slate-900 mb-4 uppercase tracking-wide flex items-center">
+                      <Wrench className="h-5 w-5 mr-2 text-gray-400" /> Technical Specifications
+                    </h3>
+                    <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                      <dl className="divide-y divide-gray-200">
+                        {product.specs.map((spec, index) => (
+                          <div key={index} className="py-3 flex justify-between">
+                            <dt className="text-gray-500 font-medium">{spec.label}</dt>
+                            <dd className="text-slate-900 font-semibold text-right">{spec.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  </div>
+
+                  <div className="mt-auto pt-6 border-t border-gray-100">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="flex items-center border border-gray-300 rounded-lg h-12 w-32">
+                        <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 text-gray-500 hover:text-slate-900 focus:outline-none">-</button>
+                        <input
+                          type="number"
+                          value={quantity}
+                          readOnly
+                          className="w-full text-center font-semibold text-slate-900 bg-transparent focus:outline-none"
+                        />
+                        <button onClick={() => setQuantity(quantity + 1)} className="px-4 text-gray-500 hover:text-slate-900 focus:outline-none">+</button>
+                      </div>
+                      <button
+                        onClick={handleAddToCart}
+                        className={`flex-grow h-12 rounded-lg font-bold text-lg flex items-center justify-center transition-all duration-300 ${
+                          added
+                            ? "bg-green-500 hover:bg-green-600 text-white"
+                            : "bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-red-500/30"
+                        }`}
+                      >
+                        {added ? "Added to Cart ✓" : "Add to Cart"}
+                      </button>
+                    </div>
+                    <p className="text-sm text-gray-500 flex items-center">
+                      <Truck className="h-4 w-4 mr-2" /> Free freight shipping on orders over $5,000.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      function App() {
+        const [currentView, setCurrentView] = useState("home");
+        const [selectedProduct, setSelectedProduct] = useState(null);
+        const [cartCount, setCartCount] = useState(0);
+
+        const navigateToHome = () => {
+          setSelectedProduct(null);
+          setCurrentView("home");
+        };
+
+        const navigateToProduct = (product) => {
+          setSelectedProduct(product);
+          setCurrentView("product");
+        };
+
+        const handleAddToCart = (qty) => {
+          setCartCount((prev) => prev + qty);
+        };
+
+        return (
+          <div className="min-h-screen flex flex-col font-sans text-slate-900 selection:bg-red-500 selection:text-white">
+            <Navbar onNavigateHome={navigateToHome} cartCount={cartCount} />
+
+            <main className="flex-grow">
+              {currentView === "home" && <HomeView onProductClick={navigateToProduct} />}
+
+              {currentView === "product" && (
+                <ProductDetailView product={selectedProduct} onBack={navigateToHome} onAddToCart={handleAddToCart} />
+              )}
+            </main>
+
+            <Footer />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
