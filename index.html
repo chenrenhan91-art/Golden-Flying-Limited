@@ -1,571 +1,619 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Golden Flying Limited</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-      body {
-        margin: 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golden Flying LTD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-white">
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module" data-presets="react">
+    const { useState, useEffect } = React;
+
+    const IconBase = ({ className, children }) => (
+      <span className={className} aria-hidden="true">{children}</span>
+    );
+
+    const ShoppingCart = (props) => <IconBase {...props}>🛒</IconBase>;
+    const Search = (props) => <IconBase {...props}>⌕</IconBase>;
+    const Menu = (props) => <IconBase {...props}>☰</IconBase>;
+    const X = (props) => <IconBase {...props}>✕</IconBase>;
+    const ChevronRight = (props) => <IconBase {...props}>›</IconBase>;
+    const Star = (props) => <IconBase {...props}>★</IconBase>;
+    const ShieldCheck = (props) => <IconBase {...props}>🛡</IconBase>;
+    const Truck = (props) => <IconBase {...props}>🚚</IconBase>;
+    const ArrowLeft = (props) => <IconBase {...props}>←</IconBase>;
+    const Globe = (props) => <IconBase {...props}>◉</IconBase>;
+    const MessageCircle = (props) => <IconBase {...props}>💬</IconBase>;
+    const Send = (props) => <IconBase {...props}>➤</IconBase>;
+    const CheckCircle = (props) => <IconBase {...props}>✓</IconBase>;
+    const Info = (props) => <IconBase {...props}>i</IconBase>;
+    const Filter = (props) => <IconBase {...props}>⛃</IconBase>;
+
+    const products = [
+      {
+        id: 3,
+        name: "LT Electronic Control Unit",
+        category: "Auto Parts",
+        price: 4500.0,
+        rating: 5.0,
+        reviews: 215,
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+        description:
+          "Take absolute control over your engine's parameters with the LT Electronic Control Unit. Features real-time telemetry, advanced knock control, flex-fuel support, and multi-map switching. Includes a universal wiring harness and intuitive tuning software.",
+        specs: [
+          { label: "Processor", value: "Dual 32-bit Automotive MCU" },
+          { label: "Injector Drivers", value: "8 Peak & Hold" },
+          { label: "Ignition Outputs", value: "8 Smart Coils" },
+          { label: "Data Logging", value: "8GB Onboard Memory" }
+        ]
+      },
+      {
+        id: 4,
+        name: "JY High-Performance Engine",
+        category: "Auto Parts",
+        price: 4900.0,
+        rating: 4.7,
+        reviews: 56,
+        image: "https://images.pexels.com/photos/65623/vehicle-chrome-technology-automobile-65623.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        description:
+          "A fully built JY high-performance engine designed for maximum power output and reliability. Featuring forged internals, custom camshafts, and an optimized intake manifold for extreme motorsport applications.",
+        specs: [
+          { label: "Configuration", value: "V8 Twin-Turbo" },
+          { label: "Displacement", value: "5.0 Liters" },
+          { label: "Block Material", value: "Cast Aluminum" },
+          { label: "Max Horsepower", value: "800+ HP" }
+        ]
+      },
+      {
+        id: 5,
+        name: "QX High-Performance Engine",
+        category: "Auto Parts",
+        price: 7800.0,
+        rating: 4.9,
+        reviews: 142,
+        image: "https://images.pexels.com/photos/19867863/pexels-photo-19867863.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        description:
+          "Experience unparalleled power with our fully assembled QX High-Performance crate engine. Ready to drop into your custom build and deliver exceptional torque and horsepower out of the box.",
+        specs: [
+          { label: "Configuration", value: "V8 Supercharged" },
+          { label: "Displacement", value: "6.2 Liters" },
+          { label: "Block Material", value: "Forged Aluminum" },
+          { label: "Max Horsepower", value: "950 HP" }
+        ]
+      },
+      {
+        id: 6,
+        name: "JK Electronic Control Unit",
+        category: "Auto Parts",
+        price: 3000.0,
+        rating: 4.7,
+        reviews: 93,
+        image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+        description:
+          "An advanced JK Electronic Control Unit for managing high-output ignition coils and recording high-speed track telemetry. Seamlessly integrates with CAN-bus networks to provide ultra-precise spark timing.",
+        specs: [
+          { label: "Compatibility", value: "Universal CAN-bus" },
+          { label: "Spark Energy", value: "Up to 150mJ per spark" },
+          { label: "Telemetry", value: "100Hz GPS & G-Force" },
+          { label: "Housing", value: "IP67 Billet Aluminum" }
+        ]
+      },
+      {
+        id: 7,
+        name: "Essential Heavyweight Cotton T-Shirt",
+        category: "Apparel",
+        price: 45.0,
+        rating: 4.8,
+        reviews: 320,
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+        description:
+          "Crafted from premium 280gsm heavyweight organic cotton. This t-shirt offers a relaxed, structured fit that maintains its shape wash after wash. The perfect foundation for any modern wardrobe.",
+        specs: [
+          { label: "Material", value: "100% Organic Cotton" },
+          { label: "Weight", value: "280 GSM" },
+          { label: "Fit", value: "Relaxed / Oversized" },
+          { label: "Care", value: "Machine wash cold, lay flat to dry" }
+        ]
+      },
+      {
+        id: 8,
+        name: "Tailored Wool Blend Overcoat",
+        category: "Apparel",
+        price: 285.0,
+        rating: 4.7,
+        reviews: 89,
+        image: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?auto=format&fit=crop&w=800&q=80",
+        description:
+          "Elevate your winter attire with our classic double-breasted overcoat. Cut from a luxurious wool blend, it features structured shoulders, notch lapels, and a sleek silhouette designed for effortless layering.",
+        specs: [
+          { label: "Outer Material", value: "70% Wool, 30% Polyester" },
+          { label: "Lining", value: "100% Viscose" },
+          { label: "Style", value: "Double-Breasted" },
+          { label: "Dry Clean", value: "Recommended" }
+        ]
+      },
+      {
+        id: 9,
+        name: "Classic Chronograph Leather Watch",
+        category: "Accessories",
+        price: 195.0,
+        rating: 4.9,
+        reviews: 156,
+        image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80",
+        description:
+          "A timeless timepiece featuring a precision Japanese quartz movement, encased in surgical-grade stainless steel. Paired with a genuine full-grain leather strap that develops a rich patina over time.",
+        specs: [
+          { label: "Movement", value: "Japanese Quartz Chronograph" },
+          { label: "Case Material", value: "316L Stainless Steel" },
+          { label: "Glass", value: "Sapphire Crystal (Scratch Resistant)" },
+          { label: "Water Resistance", value: "5 ATM (50 Meters)" }
+        ]
+      },
+      {
+        id: 10,
+        name: "Premium Minimalist Sectional Sofa",
+        category: "Furniture",
+        price: 2450.0,
+        rating: 4.9,
+        reviews: 128,
+        image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80",
+        description:
+          "Anchor your living space with this luxurious sectional sofa. Featuring deep seating, high-resiliency foam cushions, and a durable performance fabric upholstery, it perfectly balances modern aesthetics with everyday comfort.",
+        specs: [
+          { label: "Dimensions", value: "112\" L x 65\" W x 32\" H" },
+          { label: "Frame Material", value: "Kiln-Dried Hardwood" },
+          { label: "Upholstery", value: "Performance Linen Blend" },
+          { label: "Seating Capacity", value: "4-5 Adults" }
+        ]
       }
-    </style>
-  </head>
-  <body class="bg-white">
-    <div id="root"></div>
+    ];
 
-    <script type="text/babel" data-presets="react">
-      const { useState, useEffect } = React;
+    const CATEGORIES = ["All", "Apparel", "Accessories", "Furniture", "Auto Parts"];
 
-      const IconBase = ({ className = "h-5 w-5", children, viewBox = "0 0 24 24" }) => (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox={viewBox}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={className}
-        >
-          {children}
-        </svg>
-      );
+    const Navbar = ({ onNavigateHome }) => {
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-      const ShoppingCart = (props) => (
-        <IconBase {...props}>
-          <circle cx="9" cy="20" r="1" />
-          <circle cx="17" cy="20" r="1" />
-          <path d="M3 4h2l2.4 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H7" />
-        </IconBase>
-      );
-
-      const Search = (props) => (
-        <IconBase {...props}>
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.5-3.5" />
-        </IconBase>
-      );
-
-      const Menu = (props) => (
-        <IconBase {...props}>
-          <path d="M3 6h18" />
-          <path d="M3 12h18" />
-          <path d="M3 18h18" />
-        </IconBase>
-      );
-
-      const X = (props) => (
-        <IconBase {...props}>
-          <path d="m18 6-12 12" />
-          <path d="m6 6 12 12" />
-        </IconBase>
-      );
-
-      const ChevronRight = (props) => (
-        <IconBase {...props}>
-          <path d="m9 18 6-6-6-6" />
-        </IconBase>
-      );
-
-      const Star = (props) => (
-        <IconBase {...props}>
-          <path d="m12 2.5 2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5-4.7-4.6 6.5-1Z" />
-        </IconBase>
-      );
-
-      const ShieldCheck = (props) => (
-        <IconBase {...props}>
-          <path d="M12 3 5 6v6c0 5 3.4 8.6 7 10 3.6-1.4 7-5 7-10V6z" />
-          <path d="m9 12 2 2 4-4" />
-        </IconBase>
-      );
-
-      const Truck = (props) => (
-        <IconBase {...props}>
-          <path d="M1 5h12v10H1z" />
-          <path d="M13 8h4l3 3v4h-7z" />
-          <circle cx="6" cy="18" r="2" />
-          <circle cx="18" cy="18" r="2" />
-        </IconBase>
-      );
-
-      const ArrowLeft = (props) => (
-        <IconBase {...props}>
-          <path d="M19 12H5" />
-          <path d="m12 19-7-7 7-7" />
-        </IconBase>
-      );
-
-      const Settings = (props) => (
-        <IconBase {...props}>
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.8 1.8 0 0 0 .3 2l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.8 1.8 0 0 0-2-.3 1.8 1.8 0 0 0-1 1.6V21a2 2 0 0 1-4 0v-.2a1.8 1.8 0 0 0-1-1.6 1.8 1.8 0 0 0-2 .3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.8 1.8 0 0 0 .3-2 1.8 1.8 0 0 0-1.6-1H3a2 2 0 0 1 0-4h.2a1.8 1.8 0 0 0 1.6-1 1.8 1.8 0 0 0-.3-2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.8 1.8 0 0 0 2 .3 1.8 1.8 0 0 0 1-1.6V3a2 2 0 0 1 4 0v.2a1.8 1.8 0 0 0 1 1.6 1.8 1.8 0 0 0 2-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.8 1.8 0 0 0-.3 2 1.8 1.8 0 0 0 1.6 1H21a2 2 0 0 1 0 4h-.2a1.8 1.8 0 0 0-1.4.7z" />
-        </IconBase>
-      );
-
-      const Zap = (props) => (
-        <IconBase {...props}>
-          <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
-        </IconBase>
-      );
-
-      const Wrench = (props) => (
-        <IconBase {...props}>
-          <path d="M22 6.5a5.5 5.5 0 0 1-7.8 5L6.7 19a2 2 0 1 1-2.8-2.8l7.5-7.5A5.5 5.5 0 0 1 17 2l-3 3 2 2z" />
-        </IconBase>
-      );
-
-      const products = [
-        {
-          id: 3,
-          name: "JY High-Performance Engine",
-          category: "Control Modules",
-          price: 4200,
-          rating: 5.0,
-          reviews: 215,
-          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-          description:
-            "Take absolute control over your engine's parameters with the Pro-Tuner Standalone Engine Control Unit. Features real-time telemetry, advanced knock control, flex-fuel support, and multi-map switching. Includes a universal wiring harness and intuitive tuning software.",
-          specs: [
-            { label: "Processor", value: "Dual 32-bit Automotive MCU" },
-            { label: "Injector Drivers", value: "8 Peak & Hold" },
-            { label: "Ignition Outputs", value: "8 Smart Coils" },
-            { label: "Data Logging", value: "8GB Onboard Memory" },
-          ],
-        },
-        {
-          id: 4,
-          name: "LT Electronic Control Unit",
-          category: "Auto Parts",
-          price: 4800,
-          rating: 4.7,
-          reviews: 56,
-          image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80",
-          description:
-            "Eliminate brake fade and reduce unsprung weight with our premium carbon ceramic brake upgrade kit. Features massive 6-piston forged front calipers and 380mm rotors. Delivers consistent, neck-snapping stopping power under the most extreme track conditions.",
-          specs: [
-            { label: "Rotor Material", value: "Carbon Ceramic Matrix" },
-            { label: "Front Calipers", value: "6-Piston Monoblock" },
-            { label: "Rear Calipers", value: "4-Piston Monoblock" },
-            { label: "Pad Compound", value: "Track/Street Hybrid" },
-          ],
-        },
-        {
-          id: 5,
-          name: "QX High-Performance Engine",
-          category: "Engine Parts",
-          price: 7750,
-          rating: 4.9,
-          reviews: 142,
-          image: "https://images.unsplash.com/photo-1580274455191-1c62238fa333?auto=format&fit=crop&w=800&q=80",
-          description:
-            "Maximize your engine's volumetric efficiency with our dual ball-bearing turbocharger. Features a billet aluminum compressor wheel and high-temp Inconel turbine for rapid spool and massive top-end power.",
-          specs: [
-            { label: "Bearing Type", value: "Dual Ceramic Ball Bearing" },
-            { label: "Compressor Wheel", value: "62mm Billet Aluminum" },
-            { label: "Turbine Housing", value: "T3 / T4 Options" },
-            { label: "Max Power Rating", value: "850 HP" },
-          ],
-        },
-        {
-          id: 6,
-          name: "GH Transmission Assembly",
-          category: "Control Modules",
-          price: 4680,
-          rating: 4.7,
-          reviews: 93,
-          image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
-          description:
-            "An advanced add-on control module for managing high-output ignition coils and recording high-speed track telemetry. Seamlessly integrates with CAN-bus networks to provide ultra-precise spark timing.",
-          specs: [
-            { label: "Compatibility", value: "Universal CAN-bus" },
-            { label: "Spark Energy", value: "Up to 150mJ per spark" },
-            { label: "Telemetry", value: "100Hz GPS & G-Force" },
-            { label: "Housing", value: "IP67 Billet Aluminum" },
-          ],
-        },
-      ];
-
-      const Navbar = ({ onNavigateHome, cartCount }) => {
-        const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-        return (
-          <nav className="bg-slate-900 text-white sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-20">
-                <div className="flex items-center cursor-pointer group" onClick={onNavigateHome}>
-                  <div className="bg-red-600 p-2 rounded-lg group-hover:bg-red-500 transition-colors">
-                    <Zap className="h-6 w-6 text-white" />
-                  </div>
-                  <span className="ml-3 font-bold text-xl tracking-wider uppercase">
-                    Golden Flying <span className="text-red-500">Limited</span>
-                  </span>
-                </div>
-
-                <div className="hidden md:flex space-x-8 items-center">
-                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); }} className="text-gray-300 hover:text-white transition-colors">Home</a>
-                  <a href="#engines" className="text-gray-300 hover:text-white transition-colors">Engines</a>
-                  <a href="#transmissions" className="text-gray-300 hover:text-white transition-colors">Transmissions</a>
-                  <a href="#ecus" className="text-gray-300 hover:text-white transition-colors">ECUs</a>
-
-                  <div className="flex space-x-5 ml-4 border-l border-slate-700 pl-6">
-                    <button className="text-gray-300 hover:text-white transition-colors" aria-label="search">
-                      <Search className="h-5 w-5" />
-                    </button>
-                    <button className="text-gray-300 hover:text-white transition-colors relative" aria-label="cart">
-                      <ShoppingCart className="h-5 w-5" />
-                      {cartCount > 0 && (
-                        <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                          {cartCount}
-                        </span>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="md:hidden flex items-center space-x-4">
-                  <button className="text-gray-300 hover:text-white transition-colors relative" aria-label="mobile cart">
-                    <ShoppingCart className="h-6 w-6" />
-                    {cartCount > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )}
-                  </button>
-                  <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-300 hover:text-white" aria-label="menu">
-                    {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {isMobileMenuOpen && (
-              <div className="md:hidden bg-slate-800 border-t border-slate-700">
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); setIsMobileMenuOpen(false); }} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Home</a>
-                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Engines</a>
-                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Transmissions</a>
-                  <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700">Control Modules</a>
-                </div>
-              </div>
-            )}
-          </nav>
-        );
-      };
-
-      const Hero = () => (
-        <div className="relative bg-slate-900 overflow-hidden">
-          <div className="absolute inset-0">
-            <img
-              src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80"
-              alt="Performance Car Background"
-              className="w-full h-full object-cover opacity-30"
-            />
-          </div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col items-start">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4 max-w-2xl">
-              UNLEASH YOUR VEHICLE&apos;s <span className="text-red-500">TRUE POTENTIAL</span>
-            </h1>
-            <p className="mt-4 text-xl text-gray-300 max-w-xl mb-8">
-              Premium high-performance engines, precision transmissions, and advanced control modules for serious builders and motorsport professionals.
-            </p>
-            <div className="flex space-x-4">
-              <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors flex items-center">
-                Shop Catalog <ChevronRight className="ml-2 h-5 w-5" />
-              </button>
-              <button className="bg-transparent border-2 border-white hover:bg-white hover:text-slate-900 text-white font-bold py-3 px-8 rounded-lg transition-colors">
-                View Builds
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-
-      const ProductCard = ({ product, onClick }) => (
-        <div
-          onClick={() => onClick(product)}
-          className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col"
-        >
-          <div className="relative h-56 overflow-hidden bg-gray-100">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="absolute top-3 left-3 bg-slate-900 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
-              {product.category}
-            </div>
-          </div>
-          <div className="p-5 flex flex-col flex-grow">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors line-clamp-2">
-                {product.name}
-              </h3>
-            </div>
-            <div className="flex items-center mb-4">
-              <Star className="h-4 w-4 text-yellow-400" />
-              <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
-              <span className="ml-1 text-sm text-gray-400">({product.reviews})</span>
-            </div>
-            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-              <span className="text-2xl font-extrabold text-slate-900">
-                ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-              </span>
-              <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
-                <ShoppingCart className="h-5 w-5 text-gray-400 group-hover:text-red-600" />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
-      const Features = () => (
-        <div className="bg-white py-12 border-b border-gray-200">
+      return (
+        <nav className="bg-white text-zinc-900 sticky top-0 z-40 border-b border-gray-100 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex items-center justify-center md:justify-start space-x-4">
-                <div className="bg-red-50 p-3 rounded-full"><ShieldCheck className="h-8 w-8 text-red-600" /></div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Genuine Parts</h4>
-                  <p className="text-sm text-gray-500">100% authentic performance gear</p>
+            <div className="flex justify-between items-center h-20">
+              <div className="flex items-center cursor-pointer group" onClick={onNavigateHome}>
+                <div className="bg-zinc-900 p-2 rounded-lg group-hover:bg-zinc-800 transition-colors">
+                  <Globe className="h-6 w-6 text-white" />
+                </div>
+                <span className="ml-3 font-extrabold text-xl tracking-widest uppercase">
+                  Golden Flying <span className="text-gray-400 font-light">LTD</span>
+                </span>
+              </div>
+
+              <div className="hidden md:flex space-x-8 items-center font-medium">
+                <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); }} className="text-zinc-900 hover:text-gray-500 transition-colors">Home</a>
+                <a href="#catalog" className="text-zinc-600 hover:text-zinc-900 transition-colors">Catalog</a>
+                <a href="#about" className="text-zinc-600 hover:text-zinc-900 transition-colors">About Us</a>
+
+                <div className="flex space-x-5 ml-4 border-l border-gray-200 pl-6">
+                  <button className="text-zinc-600 hover:text-zinc-900 transition-colors">
+                    <Search className="h-5 w-5" />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center justify-center md:justify-start space-x-4">
-                <div className="bg-red-50 p-3 rounded-full"><Truck className="h-8 w-8 text-red-600" /></div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Global Freight</h4>
-                  <p className="text-sm text-gray-500">Secure shipping for heavy assemblies</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center md:justify-start space-x-4">
-                <div className="bg-red-50 p-3 rounded-full"><Settings className="h-8 w-8 text-red-600" /></div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Expert Support</h4>
-                  <p className="text-sm text-gray-500">ASE Certified tech assistance</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
 
-      const Footer = () => (
-        <footer className="bg-slate-900 text-gray-400 py-12 mt-auto">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center mb-4">
-                <Zap className="h-6 w-6 text-red-500" />
-                <span className="ml-2 font-bold text-xl text-white uppercase">Golden Flying Limited</span>
-              </div>
-              <p className="text-sm">The ultimate destination for professional-grade automotive performance parts, engines, and electronics.</p>
-            </div>
-            <div>
-              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Products</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-red-400">Crate Engines</a></li>
-                <li><a href="#" className="hover:text-red-400">Transmission Systems</a></li>
-                <li><a href="#" className="hover:text-red-400">Engine Management (ECU)</a></li>
-                <li><a href="#" className="hover:text-red-400">Turbo & Superchargers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Support</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-red-400">Installation Guides</a></li>
-                <li><a href="#" className="hover:text-red-400">Shipping & Returns</a></li>
-                <li><a href="#" className="hover:text-red-400">Warranty Info</a></li>
-                <li><a href="#" className="hover:text-red-400">Contact Us</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Newsletter</h4>
-              <p className="text-sm mb-4">Subscribe for updates on new drops and tech articles.</p>
-              <div className="flex">
-                <input type="email" placeholder="Email Address" className="bg-slate-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-1 focus:ring-red-500" />
-                <button className="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700 transition-colors">Join</button>
-              </div>
-            </div>
-          </div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-sm text-center">
-            &copy; {new Date().getFullYear()} Golden Flying Limited. All rights reserved.
-          </div>
-        </footer>
-      );
-
-      const HomeView = ({ onProductClick }) => (
-        <div>
-          <Hero />
-          <Features />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="flex justify-between items-end mb-8">
-              <div>
-                <h2 className="text-3xl font-extrabold text-slate-900 uppercase tracking-tight">Featured Hardware</h2>
-                <p className="text-gray-500 mt-2">Top-tier components for your next build</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} onClick={onProductClick} />
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-
-      const ProductDetailView = ({ product, onBack, onAddToCart }) => {
-        const [quantity, setQuantity] = useState(1);
-        const [added, setAdded] = useState(false);
-
-        useEffect(() => {
-          window.scrollTo(0, 0);
-        }, []);
-
-        const handleAddToCart = () => {
-          onAddToCart(quantity);
-          setAdded(true);
-          setTimeout(() => setAdded(false), 2000);
-        };
-
-        if (!product) return null;
-
-        return (
-          <div className="bg-gray-50 min-h-screen pb-20">
-            <div className="bg-white border-b border-gray-200">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <button onClick={onBack} className="flex items-center text-gray-500 hover:text-red-600 transition-colors text-sm font-medium">
-                  <ArrowLeft className="h-4 w-4 mr-2" /> Back to Catalog
+              <div className="md:hidden flex items-center space-x-4">
+                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-zinc-900">
+                  {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
                 </button>
               </div>
             </div>
+          </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:flex-row">
-                <div className="w-full lg:w-1/2 bg-gray-100 relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover min-h-[400px] lg:min-h-[600px]"
-                  />
-                  <div className="absolute top-6 left-6 bg-slate-900 text-white text-sm font-bold px-3 py-1.5 rounded uppercase tracking-wider shadow-lg">
-                    {product.category}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
+              <div className="px-4 pt-2 pb-4 space-y-1">
+                <a href="#" onClick={(e) => { e.preventDefault(); onNavigateHome(); setIsMobileMenuOpen(false); }} className="block px-3 py-3 rounded-md text-base font-medium text-zinc-900 bg-gray-50">Home</a>
+                <a href="#catalog" className="block px-3 py-3 rounded-md text-base font-medium text-zinc-600 hover:text-zinc-900 hover:bg-gray-50">Catalog</a>
+                <a href="#about" className="block px-3 py-3 rounded-md text-base font-medium text-zinc-600 hover:text-zinc-900 hover:bg-gray-50">About Us</a>
+              </div>
+            </div>
+          )}
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <div className="relative bg-zinc-900 overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1920&q=80"
+            alt="Modern Lifestyle and Commerce"
+            className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+          />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col items-center text-center">
+          <span className="text-gray-300 tracking-[0.2em] uppercase text-sm font-semibold mb-4 border-b border-gray-500 pb-2">
+            Golden Flying Limited
+          </span>
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 max-w-3xl leading-tight">
+            CURATED EXCELLENCE FOR YOUR LIFESTYLE
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mb-10 font-light">
+            Discover our premium selection spanning tailored apparel, refined accessories, timeless furniture, and high-performance engineering.
+          </p>
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#catalog" className="bg-white text-zinc-900 hover:bg-gray-100 font-bold py-3 px-8 rounded-sm transition-colors flex items-center justify-center">
+              Explore Collection
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+
+    const ProductCard = ({ product, onClick }) => (
+      <div
+        onClick={() => onClick(product)}
+        className="bg-white rounded-none border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer group flex flex-col"
+      >
+        <div className="relative h-72 overflow-hidden bg-gray-50">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+          />
+          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-zinc-900 text-[10px] font-bold px-2 py-1 uppercase tracking-widest border border-gray-200">
+            {product.category}
+          </div>
+        </div>
+        <div className="p-6 flex flex-col flex-grow">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-base font-bold text-zinc-900 leading-snug group-hover:text-gray-500 transition-colors line-clamp-2">
+              {product.name}
+            </h3>
+          </div>
+          <div className="flex items-center mb-6">
+            <Star className="h-3.5 w-3.5 text-zinc-900 fill-current" />
+            <span className="ml-1 text-xs text-zinc-600 font-medium">{product.rating}</span>
+            <span className="ml-1 text-xs text-gray-400">({product.reviews})</span>
+          </div>
+          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+            <span className="text-xl font-medium text-zinc-900 tracking-tight">
+              ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            </span>
+            <div className="h-8 w-8 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-zinc-900 group-hover:border-zinc-900 transition-colors">
+              <ChevronRight className="h-4 w-4 text-zinc-400 group-hover:text-white transition-colors" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    const Features = () => (
+      <div className="bg-gray-50 py-12 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+              <ShieldCheck className="h-8 w-8 text-zinc-800" />
+              <div>
+                <h4 className="font-bold text-zinc-900 uppercase tracking-wide text-sm">Premium Quality</h4>
+                <p className="text-sm text-gray-500 mt-1">Carefully sourced materials & craftsmanship</p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+              <Globe className="h-8 w-8 text-zinc-800" />
+              <div>
+                <h4 className="font-bold text-zinc-900 uppercase tracking-wide text-sm">Global Shipping</h4>
+                <p className="text-sm text-gray-500 mt-1">Delivering luxury anywhere in the world</p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+              <MessageCircle className="h-8 w-8 text-zinc-800" />
+              <div>
+                <h4 className="font-bold text-zinc-900 uppercase tracking-wide text-sm">24/7 Concierge</h4>
+                <p className="text-sm text-gray-500 mt-1">Dedicated support for your inquiries</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    const ConsultationWidget = ({ isOpen, setIsOpen }) => {
+      const [isSubmitted, setIsSubmitted] = useState(false);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsOpen(false);
+          setIsSubmitted(false);
+        }, 2500);
+      };
+
+      return (
+        <>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="fixed bottom-6 right-6 h-14 w-14 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-105 z-50"
+            aria-label="Customer Support"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+          </button>
+
+          {isOpen && (
+            <div className="fixed bottom-24 right-6 w-80 sm:w-96 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden flex flex-col">
+              <div className="bg-zinc-900 p-4 text-white flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold flex items-center text-sm uppercase tracking-wider">
+                    <MessageCircle className="h-4 w-4 mr-2" /> Live Support
+                  </h3>
+                  <p className="text-[10px] text-gray-300 mt-1">Leave us a message, we reply within 24h.</p>
+                </div>
+              </div>
+
+              <div className="p-5">
+                {isSubmitted ? (
+                  <div className="flex flex-col items-center justify-center py-10 text-center">
+                    <CheckCircle className="h-12 w-12 text-green-500 mb-3" />
+                    <h4 className="font-bold text-zinc-900">Message Sent!</h4>
+                    <p className="text-sm text-gray-500 mt-1">Our team will get back to you shortly.</p>
                   </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Name</label>
+                      <input required type="text" placeholder="Your Name" className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 outline-none focus:border-zinc-900 transition-colors" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Email</label>
+                      <input required type="email" placeholder="you@example.com" className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 outline-none focus:border-zinc-900 transition-colors" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Message</label>
+                      <textarea required rows="3" placeholder="How can we help you?" className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 outline-none focus:border-zinc-900 transition-colors resize-none"></textarea>
+                    </div>
+                    <button type="submit" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-2.5 rounded-md text-sm transition-colors flex justify-center items-center">
+                      Send Message <Send className="h-4 w-4 ml-2" />
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      );
+    };
+
+    const Footer = () => (
+      <footer id="about" className="bg-white border-t border-gray-200 py-16 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="col-span-1 md:col-span-1">
+            <div className="flex items-center mb-6">
+              <Globe className="h-6 w-6 text-zinc-900" />
+              <span className="ml-2 font-extrabold text-lg text-zinc-900 uppercase tracking-widest">Golden Flying</span>
+            </div>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              A premier global trading platform dedicated to curating exceptional products across fashion, living, and automotive engineering.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-zinc-900 font-bold mb-6 uppercase text-xs tracking-widest">Collections</h4>
+            <ul className="space-y-3 text-sm text-gray-500">
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Apparel & Fashion</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Fine Accessories</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Home & Furniture</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Automotive Parts</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-zinc-900 font-bold mb-6 uppercase text-xs tracking-widest">Customer Care</h4>
+            <ul className="space-y-3 text-sm text-gray-500">
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Contact Us</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Shipping & Returns</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">Size Guide</a></li>
+              <li><a href="#" className="hover:text-zinc-900 transition-colors">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-zinc-900 font-bold mb-6 uppercase text-xs tracking-widest">Newsletter</h4>
+            <p className="text-sm text-gray-500 mb-4">Join our list for exclusive product drops and updates.</p>
+            <div className="flex border border-gray-300 p-1 rounded-sm focus-within:border-zinc-900 transition-colors">
+              <input type="email" placeholder="Email Address" className="w-full text-sm px-3 py-2 outline-none text-zinc-900" />
+              <button className="bg-zinc-900 text-white px-4 py-2 text-sm font-medium hover:bg-zinc-800 transition-colors">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-gray-100 text-xs text-gray-400 flex flex-col md:flex-row justify-between items-center">
+          <p>&copy; {new Date().getFullYear()} Golden Flying Limited. All rights reserved.</p>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <a href="#" className="hover:text-zinc-900">Privacy Policy</a>
+            <a href="#" className="hover:text-zinc-900">Terms of Service</a>
+          </div>
+        </div>
+      </footer>
+    );
+
+    const HomeView = ({ onProductClick }) => {
+      const [activeCategory, setActiveCategory] = useState("All");
+
+      const filteredProducts = activeCategory === "All"
+        ? products
+        : products.filter((p) => p.category === activeCategory);
+
+      return (
+        <div id="catalog">
+          <Hero />
+          <Features />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-gray-100 pb-6">
+              <h2 className="text-2xl font-extrabold text-zinc-900 uppercase tracking-widest mb-6 md:mb-0">
+                Current Collection
+              </h2>
+
+              <div className="flex flex-wrap justify-center gap-2">
+                {CATEGORIES.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                      activeCategory === category
+                        ? "bg-zinc-900 text-white"
+                        : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-zinc-900"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} onClick={onProductClick} />
+              ))}
+
+              {filteredProducts.length === 0 && (
+                <div className="col-span-full py-20 text-center text-gray-500">
+                  No products found in this category.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const ProductDetailView = ({ product, onBack, onInquire }) => {
+      useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, [product]);
+
+      if (!product) return null;
+
+      return (
+        <div className="bg-white min-h-screen pb-20">
+          <div className="border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+              <button
+                onClick={onBack}
+                className="flex items-center text-gray-400 hover:text-zinc-900 transition-colors text-xs font-bold uppercase tracking-wider"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" /> Back to Collection
+              </button>
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="flex flex-col lg:flex-row gap-12">
+              <div className="w-full lg:w-1/2 bg-gray-50 relative aspect-square lg:aspect-auto lg:min-h-[700px]">
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+              </div>
+
+              <div className="w-full lg:w-1/2 flex flex-col py-4">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-200 inline-block pb-1 w-max">
+                  {product.category}
+                </span>
+                <h1 className="text-3xl lg:text-4xl font-extrabold text-zinc-900 mb-4 leading-tight">
+                  {product.name}
+                </h1>
+
+                <div className="flex items-center mb-6">
+                  <div className="flex items-center text-zinc-900">
+                    <Star className="h-4 w-4 fill-current" />
+                    <Star className="h-4 w-4 fill-current" />
+                    <Star className="h-4 w-4 fill-current" />
+                    <Star className="h-4 w-4 fill-current" />
+                    <Star className="h-4 w-4 fill-current text-gray-200" />
+                  </div>
+                  <span className="ml-3 text-sm text-zinc-600 font-medium">{product.rating} Rating</span>
+                  <span className="mx-3 text-gray-300">|</span>
+                  <span className="text-sm text-gray-400 cursor-pointer hover:text-zinc-900 transition-colors">{product.reviews} Reviews</span>
                 </div>
 
-                <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col">
-                  <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4 leading-tight">{product.name}</h1>
+                <div className="text-3xl font-light text-zinc-900 mb-8">
+                  ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                </div>
 
-                  <div className="flex items-center mb-6">
-                    <div className="flex items-center text-yellow-400">
-                      <Star className="h-5 w-5" />
-                      <Star className="h-5 w-5" />
-                      <Star className="h-5 w-5" />
-                      <Star className="h-5 w-5" />
-                      <Star className="h-5 w-5 text-gray-300" />
-                    </div>
-                    <span className="ml-3 text-gray-600 font-medium">{product.rating} Rating</span>
-                    <span className="mx-3 text-gray-300">|</span>
-                    <span className="text-blue-600 hover:underline cursor-pointer">{product.reviews} Reviews</span>
-                  </div>
+                <p className="text-gray-500 text-base mb-10 leading-relaxed font-light">
+                  {product.description}
+                </p>
 
-                  <div className="text-4xl font-extrabold text-slate-900 mb-6">
-                    ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                  </div>
+                <div className="mb-12">
+                  <button
+                    onClick={onInquire}
+                    className="w-full h-14 bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm tracking-widest uppercase flex items-center justify-center transition-all duration-300 shadow-xl"
+                  >
+                    <MessageCircle className="mr-2 h-5 w-5" /> Request a Quote
+                  </button>
+                </div>
 
-                  <p className="text-gray-600 text-lg mb-8 leading-relaxed">{product.description}</p>
-
-                  <div className="mb-8">
-                    <h3 className="text-lg font-bold text-slate-900 mb-4 uppercase tracking-wide flex items-center">
-                      <Wrench className="h-5 w-5 mr-2 text-gray-400" /> Technical Specifications
-                    </h3>
-                    <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
-                      <dl className="divide-y divide-gray-200">
-                        {product.specs.map((spec, index) => (
-                          <div key={index} className="py-3 flex justify-between">
-                            <dt className="text-gray-500 font-medium">{spec.label}</dt>
-                            <dd className="text-slate-900 font-semibold text-right">{spec.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    </div>
-                  </div>
-
-                  <div className="mt-auto pt-6 border-t border-gray-100">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="flex items-center border border-gray-300 rounded-lg h-12 w-32">
-                        <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 text-gray-500 hover:text-slate-900 focus:outline-none">-</button>
-                        <input
-                          type="number"
-                          value={quantity}
-                          readOnly
-                          className="w-full text-center font-semibold text-slate-900 bg-transparent focus:outline-none"
-                        />
-                        <button onClick={() => setQuantity(quantity + 1)} className="px-4 text-gray-500 hover:text-slate-900 focus:outline-none">+</button>
-                      </div>
-                      <button
-                        onClick={handleAddToCart}
-                        className={`flex-grow h-12 rounded-lg font-bold text-lg flex items-center justify-center transition-all duration-300 ${
-                          added
-                            ? "bg-green-500 hover:bg-green-600 text-white"
-                            : "bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-red-500/30"
-                        }`}
-                      >
-                        {added ? "Added to Cart ✓" : "Add to Cart"}
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-500 flex items-center">
-                      <Truck className="h-4 w-4 mr-2" /> Free freight shipping on orders over $5,000.
-                    </p>
+                <div className="mt-auto border-t border-gray-200 pt-8">
+                  <h3 className="text-sm font-bold text-zinc-900 mb-4 uppercase tracking-widest flex items-center">
+                    <Info className="h-4 w-4 mr-2 text-gray-400" /> Details & Specifications
+                  </h3>
+                  <div className="bg-gray-50 p-6 text-sm">
+                    <dl className="divide-y divide-gray-200">
+                      {product.specs.map((spec, index) => (
+                        <div key={index} className="py-3 flex justify-between">
+                          <dt className="text-gray-500">{spec.label}</dt>
+                          <dd className="text-zinc-900 font-medium text-right">{spec.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        );
+        </div>
+      );
+    };
+
+    function App() {
+      const [currentView, setCurrentView] = useState("home");
+      const [selectedProduct, setSelectedProduct] = useState(null);
+      const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+
+      const navigateToHome = () => {
+        setSelectedProduct(null);
+        setCurrentView("home");
       };
 
-      function App() {
-        const [currentView, setCurrentView] = useState("home");
-        const [selectedProduct, setSelectedProduct] = useState(null);
-        const [cartCount, setCartCount] = useState(0);
+      const navigateToProduct = (product) => {
+        setSelectedProduct(product);
+        setCurrentView("product");
+      };
 
-        const navigateToHome = () => {
-          setSelectedProduct(null);
-          setCurrentView("home");
-        };
+      return (
+        <div className="min-h-screen flex flex-col font-sans bg-white selection:bg-zinc-900 selection:text-white">
+          <Navbar onNavigateHome={navigateToHome} />
 
-        const navigateToProduct = (product) => {
-          setSelectedProduct(product);
-          setCurrentView("product");
-        };
+          <main className="flex-grow">
+            {currentView === "home" && <HomeView onProductClick={navigateToProduct} />}
 
-        const handleAddToCart = (qty) => {
-          setCartCount((prev) => prev + qty);
-        };
+            {currentView === "product" && (
+              <ProductDetailView
+                product={selectedProduct}
+                onBack={navigateToHome}
+                onInquire={() => setIsConsultationOpen(true)}
+              />
+            )}
+          </main>
 
-        return (
-          <div className="min-h-screen flex flex-col font-sans text-slate-900 selection:bg-red-500 selection:text-white">
-            <Navbar onNavigateHome={navigateToHome} cartCount={cartCount} />
+          <Footer />
 
-            <main className="flex-grow">
-              {currentView === "home" && <HomeView onProductClick={navigateToProduct} />}
+          <ConsultationWidget isOpen={isConsultationOpen} setIsOpen={setIsConsultationOpen} />
+        </div>
+      );
+    }
 
-              {currentView === "product" && (
-                <ProductDetailView product={selectedProduct} onBack={navigateToHome} onAddToCart={handleAddToCart} />
-              )}
-            </main>
-
-            <Footer />
-          </div>
-        );
-      }
-
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<App />);
-    </script>
-  </body>
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
 </html>
